@@ -5,6 +5,8 @@ export default {
     return {
       photos: [],
       newPhotoParams: {},
+      editPhotoParams: {},
+      currentPhoto: {},
     };
   },
   created: function () {
@@ -29,6 +31,11 @@ export default {
         .catch((error) => {
           console.log("photos create error", error.response);
         });
+    },
+    showPhoto: function (photo) {
+      this.currentPhoto = photo;
+      this.editPhotoParams = photo;
+      document.querySelector("#photo-details").showModal();
     },
   },
 };
@@ -56,7 +63,18 @@ export default {
       <img v-bind:src="photo.url" v-bind:alt="photo.name" />
       <p>Width: {{ photo.width }}</p>
       <p>Height: {{ photo.height }}</p>
+      <button v-on:click="showPhoto(photo)">More info</button>
     </div>
+    <dialog id="photo-details">
+      <form method="dialog">
+        <h1>Photo info</h1>
+        <p>Name: {{ currentPhoto.name }}</p>
+        <p>Width: {{ currentPhoto.width }}</p>
+        <p>Height: {{ currentPhoto.height }}</p>
+        <p>Url: {{ currentPhoto.url }}</p>
+        <button>Close</button>
+      </form>
+    </dialog>
   </div>
 </template>
 
